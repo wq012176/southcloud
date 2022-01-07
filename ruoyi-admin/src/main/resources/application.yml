@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: "prod"
+    active: "devMac"
     group:
       "devWin": "druidDev"
       "devMac": "druidDev"
