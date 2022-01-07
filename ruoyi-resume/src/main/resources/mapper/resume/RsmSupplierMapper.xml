@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.resume.mapper.RsmSupplierMapper">
+    
+    <resultMap type="RsmSupplier" id="RsmSupplierResult">
+        <result property="tenantId"    column="TENANT_ID"    />
+        <result property="REVISION"    column="REVISION"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="updatedBy"    column="UPDATED_BY"    />
+        <result property="updatedTime"    column="UPDATED_TIME"    />
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="taxId"    column="tax_id"    />
+        <result property="supplierNameSimple"    column="supplier_name_simple"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectRsmSupplierVo">
+        select TENANT_ID, REVISION, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, supplier_id, supplier_name, tax_id, supplier_name_simple, status from rsm_supplier
+    </sql>
+
+    <select id="selectRsmSupplierList" parameterType="RsmSupplier" resultMap="RsmSupplierResult">
+        <include refid="selectRsmSupplierVo"/>
+        <where>  
+            <if test="tenantId != null  and tenantId != ''"> and TENANT_ID = #{tenantId}</if>
+            <if test="REVISION != null  and REVISION != ''"> and REVISION = #{REVISION}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and UPDATED_BY = #{updatedBy}</if>
+            <if test="updatedTime != null "> and UPDATED_TIME = #{updatedTime}</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="taxId != null  and taxId != ''"> and tax_id = #{taxId}</if>
+            <if test="supplierNameSimple != null  and supplierNameSimple != ''"> and supplier_name_simple = #{supplierNameSimple}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectRsmSupplierBySupplierId" parameterType="String" resultMap="RsmSupplierResult">
+        <include refid="selectRsmSupplierVo"/>
+        where supplier_id = #{supplierId}
+    </select>
+        
+    <insert id="insertRsmSupplier" parameterType="RsmSupplier">
+        insert into rsm_supplier
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">TENANT_ID,</if>
+            <if test="REVISION != null">REVISION,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedBy != null">UPDATED_BY,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+            <if test="supplierId != null">supplier_id,</if>
+            <if test="supplierName != null">supplier_name,</if>
+            <if test="taxId != null">tax_id,</if>
+            <if test="supplierNameSimple != null">supplier_name_simple,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="REVISION != null">#{REVISION},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="supplierId != null">#{supplierId},</if>
+            <if test="supplierName != null">#{supplierName},</if>
+            <if test="taxId != null">#{taxId},</if>
+            <if test="supplierNameSimple != null">#{supplierNameSimple},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRsmSupplier" parameterType="RsmSupplier">
+        update rsm_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenantId != null">TENANT_ID = #{tenantId},</if>
+            <if test="REVISION != null">REVISION = #{REVISION},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            <if test="taxId != null">tax_id = #{taxId},</if>
+            <if test="supplierNameSimple != null">supplier_name_simple = #{supplierNameSimple},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where supplier_id = #{supplierId}
+    </update>
+
+    <delete id="deleteRsmSupplierBySupplierId" parameterType="String">
+        delete from rsm_supplier where supplier_id = #{supplierId}
+    </delete>
+
+    <delete id="deleteRsmSupplierBySupplierIds" parameterType="String">
+        delete from rsm_supplier where supplier_id in 
+        <foreach item="supplierId" collection="array" open="(" separator="," close=")">
+            #{supplierId}
+        </foreach>
+    </delete>
+
+</mapper>

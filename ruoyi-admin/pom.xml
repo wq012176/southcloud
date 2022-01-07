@@ -67,6 +67,17 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!-- 电子名片-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-resume</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
