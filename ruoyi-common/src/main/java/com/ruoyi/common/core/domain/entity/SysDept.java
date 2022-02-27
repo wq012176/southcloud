@@ -26,6 +26,9 @@ public class SysDept extends BaseEntity
     /** 祖级列表 */
     private String ancestors;
 
+    /** 公司别id*/
+    private Long compId;
+
     /** 部门名称 */
     private String deptName;
 
@@ -180,12 +183,21 @@ public class SysDept extends BaseEntity
         this.excludeId = excludeId;
     }
 
+    public Long getCompId() {
+        return compId;
+    }
+
+    public void setCompId(Long compId) {
+        this.compId = compId;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("deptId", getDeptId())
             .append("parentId", getParentId())
             .append("ancestors", getAncestors())
+            .append("compId", getCompId())
             .append("deptName", getDeptName())
             .append("orderNum", getOrderNum())
             .append("leader", getLeader())

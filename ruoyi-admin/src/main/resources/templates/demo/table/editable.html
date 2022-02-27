@@ -76,7 +76,10 @@
 				},
 				{
 				    field : 'userBalance',
-				    title : '用户余额'
+				    title : '用户余额',
+					formatter : function(value, row, index){
+						return $.table.tooltip("33333333333333333333333333333333333333333333333333333333");
+					}
 				},
 				{
                     field: 'status',

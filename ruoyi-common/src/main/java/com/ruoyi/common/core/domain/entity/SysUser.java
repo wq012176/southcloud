@@ -30,6 +30,10 @@ public class SysUser extends BaseEntity
     @Excel(name = "部门编号", type = Type.IMPORT)
     private Long deptId;
 
+    /** 公司别ID*/
+    @Excel(name = "公司别", type = Type.IMPORT)
+    private Long compId;
+
     /** 部门父ID */
     private Long parentId;
 
@@ -92,6 +96,8 @@ public class SysUser extends BaseEntity
         @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
     })
     private SysDept dept;
+
+    private SysComp comp;
 
     private List<SysRole> roles;
 
@@ -354,11 +360,28 @@ public class SysUser extends BaseEntity
         this.postIds = postIds;
     }
 
+    public Long getCompId() {
+        return compId;
+    }
+
+    public void setCompId(Long compId) {
+        this.compId = compId;
+    }
+
+    public SysComp getComp() {
+        return comp;
+    }
+
+    public void setComp(SysComp comp) {
+        this.comp = comp;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("userId", getUserId())
             .append("deptId", getDeptId())
+            .append("compId", getCompId())
             .append("loginName", getLoginName())
             .append("userName", getUserName())
             .append("userType", getUserType())

@@ -219,6 +219,12 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 民爆管理-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-bomb</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -230,6 +236,7 @@
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
         <module>ruoyi-resume</module>
+        <module>ruoyi-bomb</module>
     </modules>
     <packaging>pom</packaging>
 

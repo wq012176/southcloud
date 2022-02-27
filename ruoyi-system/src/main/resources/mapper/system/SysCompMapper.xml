@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysCompMapper">
+    
+    <resultMap type="SysComp" id="SysCompResult">
+        <result property="compId"    column="comp_id"    />
+        <result property="compNameShort"    column="comp_name_short"    />
+        <result property="compName"    column="comp_name"    />
+        <result property="taxNo"    column="tax_no"    />
+        <result property="addr"    column="addr"    />
+        <result property="phone"    column="phone"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="accountNo"    column="account_no"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysCompVo">
+        select comp_id, comp_name_short, comp_name, tax_no, addr, phone, bank_name, account_no, create_by, create_time, update_by, update_time, del_flag, remark from sys_comp
+    </sql>
+
+    <select id="selectSysCompList" parameterType="SysComp" resultMap="SysCompResult">
+        <include refid="selectSysCompVo"/>
+        <where>  
+            <if test="compName != null  and compName != ''"> and comp_name like concat('%', #{compName}, '%')</if>
+            <if test="compNameShort != null  and compNameShort != ''"> and comp_name_short like concat('%', #{compNameShort}, '%')</if>
+            <if test="taxNo != null  and taxNo != ''"> and tax_no = #{taxNo}</if>
+            <if test="addr != null  and addr != ''"> and addr = #{addr}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
+            <if test="accountNo != null  and accountNo != ''"> and account_no = #{accountNo}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysCompByCompId" parameterType="Long" resultMap="SysCompResult">
+        <include refid="selectSysCompVo"/>
+        where comp_id = #{compId}
+    </select>
+        
+    <insert id="insertSysComp" parameterType="SysComp" useGeneratedKeys="true" keyProperty="compId">
+        insert into sys_comp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="compNameShort != null">comp_name_short,</if>
+            <if test="compName != null">comp_name,</if>
+            <if test="taxNo != null">tax_no,</if>
+            <if test="addr != null">addr,</if>
+            <if test="phone != null">phone,</if>
+            <if test="bankName != null">bank_name,</if>
+            <if test="accountNo != null">account_no,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="compNameShort != null">#{compNameShort},</if>
+            <if test="compName != null">#{compName},</if>
+            <if test="taxNo != null">#{taxNo},</if>
+            <if test="addr != null">#{addr},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="bankName != null">#{bankName},</if>
+            <if test="accountNo != null">#{accountNo},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysComp" parameterType="SysComp">
+        update sys_comp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="compNameShort != null">comp_name_short = #{compNameShort},</if>
+            <if test="compName != null">comp_name = #{compName},</if>
+            <if test="taxNo != null">tax_no = #{taxNo},</if>
+            <if test="addr != null">addr = #{addr},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="bankName != null">bank_name = #{bankName},</if>
+            <if test="accountNo != null">account_no = #{accountNo},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where comp_id = #{compId}
+    </update>
+
+    <delete id="deleteSysCompByCompId" parameterType="Long">
+        delete from sys_comp where comp_id = #{compId}
+    </delete>
+
+    <delete id="deleteSysCompByCompIds" parameterType="String">
+        delete from sys_comp where comp_id in 
+        <foreach item="compId" collection="array" open="(" separator="," close=")">
+            #{compId}
+        </foreach>
+    </delete>
+
+</mapper>

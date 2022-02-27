@@ -72,10 +72,11 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-resume</artifactId>
         </dependency>
+
+        <!-- 民爆管理-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-bomb</artifactId>
         </dependency>
 
     </dependencies>

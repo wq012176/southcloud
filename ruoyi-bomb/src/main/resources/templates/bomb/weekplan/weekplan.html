@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('周计划主档列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>公司别id：</label>
+                                <input type="text" name="compId"/>
+                            </li>
+                            <li>
+                                <label>计划单号：</label>
+                                <input type="text" name="planNo"/>
+                            </li>
+                            <li>
+                                <label>申报日期：</label>
+                                <input type="text" name="reqPlanDate"/>
+                            </li>
+                            <li>
+                                <label>申报人：</label>
+                                <input type="text" name="reqUserId"/>
+                            </li>
+                            <li>
+                                <label>申请单位：</label>
+                                <input type="text" name="reqDeptNo"/>
+                            </li>
+                            <li>
+                                <label>炸药需求量(小号)：</label>
+                                <input type="text" name="qtyBombSmall"/>
+                            </li>
+                            <li>
+                                <label>炸药需求量(大号)：</label>
+                                <input type="text" name="qtyBombBig"/>
+                            </li>
+                            <li>
+                                <label>炸药需求量(总)：</label>
+                                <input type="text" name="qtyBombTotal"/>
+                            </li>
+                            <li>
+                                <label>技术负责人：</label>
+                                <input type="text" name="techUserId"/>
+                            </li>
+                            <li>
+                                <label>技术审核日期：</label>
+                                <input type="text" name="techAffirmDate"/>
+                            </li>
+                            <li>
+                                <label>二级审核人：</label>
+                                <input type="text" name="balanceUserId"/>
+                            </li>
+                            <li>
+                                <label>二级审核日期：</label>
+                                <input type="text" name="balanceAffirmDate"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="bomb:weekplan:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="bomb:weekplan:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="bomb:weekplan:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="bomb:weekplan:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('bomb:weekplan:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('bomb:weekplan:remove')}]];
+        var prefix = ctx + "bomb/weekplan";
+        debugger;
+        $(function() {
+            debugger;
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "周计划主档",
+                columns: [{
+                    checkbox: false
+                },
+                {
+                    field: 'planId',
+                    title: '周计划id',
+                    visible: false
+                },
+                {
+                    field: 'compId',
+                    title: '公司别id'
+                },
+                {
+                    field: 'planNo',
+                    title: '计划单号'
+                },
+                {
+                    field: 'reqPlanDate',
+                    title: '申报日期'
+                },
+                {
+                    field: 'reqUserId',
+                    title: '申报人'
+                },
+                {
+                    field: 'reqDeptNo',
+                    title: '申请单位'
+                },
+                {
+                    field: 'qtyBombSmall',
+                    title: '炸药需求量(小号)'
+                },
+                {
+                    field: 'qtyBombBig',
+                    title: '炸药需求量(大号)'
+                },
+                {
+                    field: 'qtyBombTotal',
+                    title: '炸药需求量(总)'
+                },
+                {
+                    field: 'techUserId',
+                    title: '技术负责人'
+                },
+                {
+                    field: 'techAffirmDate',
+                    title: '技术审核日期'
+                },
+                {
+                    field: 'balanceUserId',
+                    title: '二级审核人'
+                },
+                {
+                    field: 'balanceAffirmDate',
+                    title: '二级审核日期'
+                },
+                {
+                    field: 'billStatus',
+                    title: '单据状态'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.planId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.planId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

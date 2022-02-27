@@ -82,7 +82,7 @@
                         <label class="col-sm-4 control-label">岗位：</label>
                         <div class="col-sm-8">
                             <select id="post" class="form-control select2-multiple" multiple>
-								<option th:each="post:${posts}" th:value="${post.postId}" th:text="${post.postName}" th:selected="${post.flag}" th:disabled="${post.status == '1'}"></option>
+								<option th:each="post:${posts}" th:value="${post.postId}" th:text="${post.postName}" th:selected="${post.flag}" th:disabled="${post.status == '1'}">测试一下</option>
 							</select>
                         </div>
                     </div>

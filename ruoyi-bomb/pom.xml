@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ruoyi-resume</artifactId>
+    <artifactId>ruoyi-bomb</artifactId>
 
     <description>
-        电子名片系统模块
+        民爆管理模块
     </description>
 
     <dependencies>
@@ -22,7 +22,6 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common</artifactId>
         </dependency>
-
 
     </dependencies>
 

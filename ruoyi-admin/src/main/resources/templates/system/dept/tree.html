@@ -32,6 +32,7 @@
 	    var deptId = [[${deptId}]];
 	    var excludeId = [[${excludeId}]];
 		$(function() {
+			debugger;
 			var url = $.common.isEmpty(excludeId) ? prefix + "/treeData": prefix + "/treeData/" + excludeId;
 			var options = {
 		        url: url,
