@@ -1,6 +1,8 @@
 package com.ruoyi.generator.util;
 
 import java.util.Arrays;
+import java.util.Locale;
+
 import org.apache.commons.lang3.RegExUtils;
 import com.ruoyi.common.constant.GenConstants;
 import com.ruoyi.common.utils.StringUtils;
@@ -23,10 +25,14 @@ public class GenUtils
         genTable.setClassName(convertClassName(genTable.getTableName()));
         genTable.setPackageName(GenConfig.getPackageName());
         genTable.setModuleName(getModuleName(GenConfig.getPackageName()));
-        genTable.setBusinessName(getBusinessName(genTable.getTableName()));
+        genTable.setBusinessName(getBusinessName2(genTable.getTableName()));
         genTable.setFunctionName(replaceText(genTable.getTableComment()));
         genTable.setFunctionAuthor(GenConfig.getAuthor());
         genTable.setCreateBy(operName);
+        //设定自定义路径--20220228
+        genTable.setGenType("1");
+        genTable.setGenPath("/Users/wq/javawork/southcloud/RuoYi/ruoyi-bomb/src");
+
     }
 
     /**
@@ -162,6 +168,20 @@ public class GenUtils
         int nameLength = tableName.length();
         return StringUtils.substring(tableName, lastIndex + 1, nameLength);
     }
+
+    /**
+     * 获取业务名-new：剔除前缀，将剩余部分合并，全部小写   e.g. bb_weekplan_dtl --> weekplandtl
+     * add by wq in 20220228
+     * @param tableName
+     * @return
+     */
+    public static String getBusinessName2(String tableName)
+    {
+        int firstIndex = tableName.indexOf("_");
+        int nameLength = tableName.length();
+        return StringUtils.substring(tableName, firstIndex + 1, nameLength).replace("_", "");
+    }
+
 
     /**
      * 表名转换成Java类名

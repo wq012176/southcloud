@@ -9,12 +9,6 @@
             <h4 class="form-header h4">周计划主档信息</h4>
             <input name="planId" th:field="*{planId}" type="hidden">
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">公司别id：</label>
-                <div class="col-sm-8">
-                    <input name="compId" th:field="*{compId}" class="form-control" type="text" required>
-                </div>
-            </div>
-            <div class="form-group">    
                 <label class="col-sm-3 control-label">计划单号：</label>
                 <div class="col-sm-8">
                     <input name="planNo" th:field="*{planNo}" class="form-control" type="text">
@@ -130,15 +124,6 @@
                     formatter: function (value, row, index) {
                     	var columnIndex = $.common.sprintf("<input type='hidden' name='index' value='%s'>", $.table.serialNumber(index));
                     	return columnIndex + $.table.serialNumber(index);
-                    }
-                },
-                {
-                    field: 'compId',
-                    align: 'center',
-                    title: '公司别id',
-                    formatter: function(value, row, index) {
-                        var html = $.common.sprintf("<input class='form-control' type='text' name='bbWeekplanDtlList[%s].compId' value='%s'>", index, value);
-                        return html;
                     }
                 },
                 {
@@ -268,6 +253,15 @@
                     }
                 },
                 {
+                    field: 'compId',
+                    align: 'center',
+                    title: '公司别id',
+                    formatter: function(value, row, index) {
+                        var html = $.common.sprintf("<input class='form-control' type='text' name='bbWeekplanDtlList[%s].compId' value='%s'>", index, value);
+                        return html;
+                    }
+                },
+                {
                     field: 'createBy',
                     align: 'center',
                     title: '创建人',
@@ -333,8 +327,6 @@
                 index: count,
                 row: {
                     index: $.table.serialNumber(count),
-                    compId: "",
-
                     planNo: "",
 
                     planItemNo: "",
@@ -362,6 +354,8 @@
                     qtyPlanSat: "",
 
                     qtyPlanSun: "",
+
+                    compId: "",
 
                     createBy: "",
 

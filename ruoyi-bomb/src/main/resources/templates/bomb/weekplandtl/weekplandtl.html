@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('周计划明细档列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>周计划id：</label>
+                                <input type="text" name="planId"/>
+                            </li>
+                            <li>
+                                <label>计划单号：</label>
+                                <input type="text" name="planNo"/>
+                            </li>
+                            <li>
+                                <label>明细项次号：</label>
+                                <input type="text" name="planItemNo"/>
+                            </li>
+                            <li>
+                                <label>物料编码：</label>
+                                <input type="text" name="mtrlNo"/>
+                            </li>
+                            <li>
+                                <label>物料名称：</label>
+                                <input type="text" name="mtrlName"/>
+                            </li>
+                            <li>
+                                <label>规格型号：</label>
+                                <input type="text" name="spec"/>
+                            </li>
+                            <li>
+                                <label>计量单位：</label>
+                                <input type="text" name="unit"/>
+                            </li>
+                            <li>
+                                <label>周计划量：</label>
+                                <input type="text" name="qtyPlanWeek"/>
+                            </li>
+                            <li>
+                                <label>周一计划量：</label>
+                                <input type="text" name="qtyPlanMon"/>
+                            </li>
+                            <li>
+                                <label>周二计划量：</label>
+                                <input type="text" name="qtyPlanTue"/>
+                            </li>
+                            <li>
+                                <label>周三计划量：</label>
+                                <input type="text" name="qtyPlanWed"/>
+                            </li>
+                            <li>
+                                <label>周四计划量：</label>
+                                <input type="text" name="qtyPlanThu"/>
+                            </li>
+                            <li>
+                                <label>周五计划量：</label>
+                                <input type="text" name="qtyPlanFri"/>
+                            </li>
+                            <li>
+                                <label>周六计划量：</label>
+                                <input type="text" name="qtyPlanSat"/>
+                            </li>
+                            <li>
+                                <label>周日计划量：</label>
+                                <input type="text" name="qtyPlanSun"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="bomb:weekplandtl:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="bomb:weekplandtl:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="bomb:weekplandtl:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="bomb:weekplandtl:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('bomb:weekplandtl:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('bomb:weekplandtl:remove')}]];
+        var prefix = ctx + "bomb/weekplandtl";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "周计划明细档",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'planDtlId',
+                    title: '周计划明细id',
+                    visible: false
+                },
+                {
+                    field: 'planId',
+                    title: '周计划id'
+                },
+                {
+                    field: 'planNo',
+                    title: '计划单号'
+                },
+                {
+                    field: 'planItemNo',
+                    title: '明细项次号'
+                },
+                {
+                    field: 'mtrlNo',
+                    title: '物料编码'
+                },
+                {
+                    field: 'mtrlName',
+                    title: '物料名称'
+                },
+                {
+                    field: 'spec',
+                    title: '规格型号'
+                },
+                {
+                    field: 'unit',
+                    title: '计量单位'
+                },
+                {
+                    field: 'qtyPlanWeek',
+                    title: '周计划量'
+                },
+                {
+                    field: 'qtyPlanMon',
+                    title: '周一计划量'
+                },
+                {
+                    field: 'qtyPlanTue',
+                    title: '周二计划量'
+                },
+                {
+                    field: 'qtyPlanWed',
+                    title: '周三计划量'
+                },
+                {
+                    field: 'qtyPlanThu',
+                    title: '周四计划量'
+                },
+                {
+                    field: 'qtyPlanFri',
+                    title: '周五计划量'
+                },
+                {
+                    field: 'qtyPlanSat',
+                    title: '周六计划量'
+                },
+                {
+                    field: 'qtyPlanSun',
+                    title: '周日计划量'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.planDtlId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.planDtlId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -7,10 +7,12 @@ import com.ruoyi.common.core.domain.Ztree;
 #end
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 #break
 #end
 #end
+import com.ruoyi.common.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 #if($table.sub)
@@ -72,14 +74,21 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Override
     public int insert${ClassName}(${ClassName} ${className})
     {
+        SysUser curUser = ShiroUtils.getSysUser();
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime')
         ${className}.setCreateTime(DateUtils.getNowDate());
 #end
+#if($column.javaField == 'createBy')
+        ${className}.setCreateBy(curUser.getUserName());
+#end
+#if($column.javaField == 'compId')
+        ${className}.setCompId(curUser.getCompId());
+#end
 #end
 #if($table.sub)
         int rows = ${className}Mapper.insert${ClassName}(${className});
-        insert${subClassName}(${className});
+        insert${subClassName}(${className}, curUser);
         return rows;
 #else
         return ${className}Mapper.insert${ClassName}(${className});
@@ -98,14 +107,21 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Override
     public int update${ClassName}(${ClassName} ${className})
     {
+        SysUser curUser = ShiroUtils.getSysUser();
 #foreach ($column in $columns)
 #if($column.javaField == 'updateTime')
         ${className}.setUpdateTime(DateUtils.getNowDate());
 #end
+#if($column.javaField == 'createBy')
+        ${className}.setCreateBy(curUser.getUserName());
+#end
+#if($column.javaField == 'compId')
+        ${className}.setCompId(curUser.getCompId());
+#end
 #end
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}());
-        insert${subClassName}(${className});
+        insert${subClassName}(${className}, curUser);
 #end
         return ${className}Mapper.update${ClassName}(${className});
     }
@@ -191,7 +207,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * 
      * @param ${className} ${functionName}对象
      */
-    public void insert${subClassName}(${ClassName} ${className})
+    public void insert${subClassName}(${ClassName} ${className}, SysUser curUser)
     {
         List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
         ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
@@ -201,6 +217,17 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
             for (${subClassName} ${subclassName} : ${subclassName}List)
             {
                 ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
+#foreach($column in $columns)
+#if($column.javaField == 'createTime')
+                ${subclassName}.setCreateTime(DateUtils.getNowDate());
+#end
+#if($column.javaField == 'createBy')
+                ${subclassName}.setCreateBy(curUser.getUserName());
+#end
+#if($column.javaField == 'compId')
+                ${subclassName}.setCompId(curUser.getCompId());
+#end
+#end
                 list.add(${subclassName});
             }
             if (list.size() > 0)

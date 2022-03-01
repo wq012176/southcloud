@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bomb.mapper.BbWeekplanDtlMapper">
+    
+    <resultMap type="BbWeekplanDtl" id="BbWeekplanDtlResult">
+        <result property="planDtlId"    column="plan_dtl_id"    />
+        <result property="planId"    column="plan_id"    />
+        <result property="planNo"    column="plan_no"    />
+        <result property="planItemNo"    column="plan_item_no"    />
+        <result property="mtrlNo"    column="mtrl_no"    />
+        <result property="mtrlName"    column="mtrl_name"    />
+        <result property="spec"    column="spec"    />
+        <result property="unit"    column="unit"    />
+        <result property="qtyPlanWeek"    column="qty_plan_week"    />
+        <result property="qtyPlanMon"    column="qty_plan_mon"    />
+        <result property="qtyPlanTue"    column="qty_plan_tue"    />
+        <result property="qtyPlanWed"    column="qty_plan_wed"    />
+        <result property="qtyPlanThu"    column="qty_plan_thu"    />
+        <result property="qtyPlanFri"    column="qty_plan_fri"    />
+        <result property="qtyPlanSat"    column="qty_plan_sat"    />
+        <result property="qtyPlanSun"    column="qty_plan_sun"    />
+        <result property="compId"    column="comp_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBbWeekplanDtlVo">
+        select plan_dtl_id, plan_id, plan_no, plan_item_no, mtrl_no, mtrl_name, spec, unit, qty_plan_week, qty_plan_mon, qty_plan_tue, qty_plan_wed, qty_plan_thu, qty_plan_fri, qty_plan_sat, qty_plan_sun, comp_id, create_by, create_time, update_by, update_time, del_flag, remark from bb_weekplan_dtl
+    </sql>
+
+    <select id="selectBbWeekplanDtlList" parameterType="BbWeekplanDtl" resultMap="BbWeekplanDtlResult">
+        <include refid="selectBbWeekplanDtlVo"/>
+        <where>  
+            <if test="planId != null "> and plan_id = #{planId}</if>
+            <if test="planNo != null  and planNo != ''"> and plan_no = #{planNo}</if>
+            <if test="planItemNo != null  and planItemNo != ''"> and plan_item_no = #{planItemNo}</if>
+            <if test="mtrlNo != null  and mtrlNo != ''"> and mtrl_no = #{mtrlNo}</if>
+            <if test="mtrlName != null  and mtrlName != ''"> and mtrl_name like concat('%', #{mtrlName}, '%')</if>
+            <if test="spec != null  and spec != ''"> and spec = #{spec}</if>
+            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
+            <if test="qtyPlanWeek != null "> and qty_plan_week = #{qtyPlanWeek}</if>
+            <if test="qtyPlanMon != null "> and qty_plan_mon = #{qtyPlanMon}</if>
+            <if test="qtyPlanTue != null "> and qty_plan_tue = #{qtyPlanTue}</if>
+            <if test="qtyPlanWed != null "> and qty_plan_wed = #{qtyPlanWed}</if>
+            <if test="qtyPlanThu != null "> and qty_plan_thu = #{qtyPlanThu}</if>
+            <if test="qtyPlanFri != null "> and qty_plan_fri = #{qtyPlanFri}</if>
+            <if test="qtyPlanSat != null "> and qty_plan_sat = #{qtyPlanSat}</if>
+            <if test="qtyPlanSun != null "> and qty_plan_sun = #{qtyPlanSun}</if>
+        </where>
+    </select>
+    
+    <select id="selectBbWeekplanDtlByPlanDtlId" parameterType="Long" resultMap="BbWeekplanDtlResult">
+        <include refid="selectBbWeekplanDtlVo"/>
+        where plan_dtl_id = #{planDtlId}
+    </select>
+        
+    <insert id="insertBbWeekplanDtl" parameterType="BbWeekplanDtl" useGeneratedKeys="true" keyProperty="planDtlId">
+        insert into bb_weekplan_dtl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="planId != null">plan_id,</if>
+            <if test="planNo != null">plan_no,</if>
+            <if test="planItemNo != null">plan_item_no,</if>
+            <if test="mtrlNo != null">mtrl_no,</if>
+            <if test="mtrlName != null">mtrl_name,</if>
+            <if test="spec != null">spec,</if>
+            <if test="unit != null">unit,</if>
+            <if test="qtyPlanWeek != null">qty_plan_week,</if>
+            <if test="qtyPlanMon != null">qty_plan_mon,</if>
+            <if test="qtyPlanTue != null">qty_plan_tue,</if>
+            <if test="qtyPlanWed != null">qty_plan_wed,</if>
+            <if test="qtyPlanThu != null">qty_plan_thu,</if>
+            <if test="qtyPlanFri != null">qty_plan_fri,</if>
+            <if test="qtyPlanSat != null">qty_plan_sat,</if>
+            <if test="qtyPlanSun != null">qty_plan_sun,</if>
+            <if test="compId != null">comp_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="planId != null">#{planId},</if>
+            <if test="planNo != null">#{planNo},</if>
+            <if test="planItemNo != null">#{planItemNo},</if>
+            <if test="mtrlNo != null">#{mtrlNo},</if>
+            <if test="mtrlName != null">#{mtrlName},</if>
+            <if test="spec != null">#{spec},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="qtyPlanWeek != null">#{qtyPlanWeek},</if>
+            <if test="qtyPlanMon != null">#{qtyPlanMon},</if>
+            <if test="qtyPlanTue != null">#{qtyPlanTue},</if>
+            <if test="qtyPlanWed != null">#{qtyPlanWed},</if>
+            <if test="qtyPlanThu != null">#{qtyPlanThu},</if>
+            <if test="qtyPlanFri != null">#{qtyPlanFri},</if>
+            <if test="qtyPlanSat != null">#{qtyPlanSat},</if>
+            <if test="qtyPlanSun != null">#{qtyPlanSun},</if>
+            <if test="compId != null">#{compId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBbWeekplanDtl" parameterType="BbWeekplanDtl">
+        update bb_weekplan_dtl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="planId != null">plan_id = #{planId},</if>
+            <if test="planNo != null">plan_no = #{planNo},</if>
+            <if test="planItemNo != null">plan_item_no = #{planItemNo},</if>
+            <if test="mtrlNo != null">mtrl_no = #{mtrlNo},</if>
+            <if test="mtrlName != null">mtrl_name = #{mtrlName},</if>
+            <if test="spec != null">spec = #{spec},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="qtyPlanWeek != null">qty_plan_week = #{qtyPlanWeek},</if>
+            <if test="qtyPlanMon != null">qty_plan_mon = #{qtyPlanMon},</if>
+            <if test="qtyPlanTue != null">qty_plan_tue = #{qtyPlanTue},</if>
+            <if test="qtyPlanWed != null">qty_plan_wed = #{qtyPlanWed},</if>
+            <if test="qtyPlanThu != null">qty_plan_thu = #{qtyPlanThu},</if>
+            <if test="qtyPlanFri != null">qty_plan_fri = #{qtyPlanFri},</if>
+            <if test="qtyPlanSat != null">qty_plan_sat = #{qtyPlanSat},</if>
+            <if test="qtyPlanSun != null">qty_plan_sun = #{qtyPlanSun},</if>
+            <if test="compId != null">comp_id = #{compId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where plan_dtl_id = #{planDtlId}
+    </update>
+
+    <delete id="deleteBbWeekplanDtlByPlanDtlId" parameterType="Long">
+        delete from bb_weekplan_dtl where plan_dtl_id = #{planDtlId}
+    </delete>
+
+    <delete id="deleteBbWeekplanDtlByPlanDtlIds" parameterType="String">
+        delete from bb_weekplan_dtl where plan_dtl_id in 
+        <foreach item="planDtlId" collection="array" open="(" separator="," close=")">
+            #{planDtlId}
+        </foreach>
+    </delete>
+
+</mapper>

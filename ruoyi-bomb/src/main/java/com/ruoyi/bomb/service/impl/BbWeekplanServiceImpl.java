@@ -1,7 +1,9 @@
 package com.ruoyi.bomb.service.impl;
 
 import java.util.List;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import com.ruoyi.common.core.text.Convert;
  * 周计划主档Service业务层处理
  * 
  * @author wq
- * @date 2022-01-08
+ * @date 2022-03-01
  */
 @Service
 public class BbWeekplanServiceImpl implements IBbWeekplanService 
@@ -59,9 +61,12 @@ public class BbWeekplanServiceImpl implements IBbWeekplanService
     @Override
     public int insertBbWeekplan(BbWeekplan bbWeekplan)
     {
+        SysUser curUser = ShiroUtils.getSysUser();
+        bbWeekplan.setCompId(curUser.getCompId());
+        bbWeekplan.setCreateBy(curUser.getUserName());
         bbWeekplan.setCreateTime(DateUtils.getNowDate());
         int rows = bbWeekplanMapper.insertBbWeekplan(bbWeekplan);
-        insertBbWeekplanDtl(bbWeekplan);
+        insertBbWeekplanDtl(bbWeekplan, curUser);
         return rows;
     }
 
@@ -75,9 +80,12 @@ public class BbWeekplanServiceImpl implements IBbWeekplanService
     @Override
     public int updateBbWeekplan(BbWeekplan bbWeekplan)
     {
+        SysUser curUser = ShiroUtils.getSysUser();
+        bbWeekplan.setCompId(curUser.getCompId());
+        bbWeekplan.setCreateBy(curUser.getUserName());
         bbWeekplan.setUpdateTime(DateUtils.getNowDate());
         bbWeekplanMapper.deleteBbWeekplanDtlByPlanId(bbWeekplan.getPlanId());
-        insertBbWeekplanDtl(bbWeekplan);
+        insertBbWeekplanDtl(bbWeekplan, curUser);
         return bbWeekplanMapper.updateBbWeekplan(bbWeekplan);
     }
 
@@ -114,7 +122,7 @@ public class BbWeekplanServiceImpl implements IBbWeekplanService
      * 
      * @param bbWeekplan 周计划主档对象
      */
-    public void insertBbWeekplanDtl(BbWeekplan bbWeekplan)
+    public void insertBbWeekplanDtl(BbWeekplan bbWeekplan, SysUser curUser)
     {
         List<BbWeekplanDtl> bbWeekplanDtlList = bbWeekplan.getBbWeekplanDtlList();
         Long planId = bbWeekplan.getPlanId();
@@ -124,6 +132,9 @@ public class BbWeekplanServiceImpl implements IBbWeekplanService
             for (BbWeekplanDtl bbWeekplanDtl : bbWeekplanDtlList)
             {
                 bbWeekplanDtl.setPlanId(planId);
+                bbWeekplanDtl.setCompId(curUser.getCompId());
+                bbWeekplanDtl.setCreateBy(curUser.getUserName());
+                bbWeekplanDtl.setCreateTime(DateUtils.getNowDate());
                 list.add(bbWeekplanDtl);
             }
             if (list.size() > 0)

@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 周计划主档对象 bb_weekplan
  * 
  * @author wq
- * @date 2022-01-08
+ * @date 2022-03-01
  */
 public class BbWeekplan extends BaseEntity
 {
@@ -19,10 +19,6 @@ public class BbWeekplan extends BaseEntity
 
     /** 周计划id */
     private Long planId;
-
-    /** 公司别id */
-    @Excel(name = "公司别id")
-    private Long compId;
 
     /** 计划单号 */
     @Excel(name = "计划单号")
@@ -72,6 +68,9 @@ public class BbWeekplan extends BaseEntity
     @Excel(name = "单据状态")
     private String billStatus;
 
+    /** 公司别id */
+    private Long compId;
+
     /** 删除标志0存在2删除 */
     private String delFlag;
 
@@ -86,15 +85,6 @@ public class BbWeekplan extends BaseEntity
     public Long getPlanId() 
     {
         return planId;
-    }
-    public void setCompId(Long compId) 
-    {
-        this.compId = compId;
-    }
-
-    public Long getCompId() 
-    {
-        return compId;
     }
     public void setPlanNo(String planNo) 
     {
@@ -204,6 +194,15 @@ public class BbWeekplan extends BaseEntity
     {
         return billStatus;
     }
+    public void setCompId(Long compId) 
+    {
+        this.compId = compId;
+    }
+
+    public Long getCompId() 
+    {
+        return compId;
+    }
     public void setDelFlag(String delFlag) 
     {
         this.delFlag = delFlag;
@@ -228,7 +227,6 @@ public class BbWeekplan extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("planId", getPlanId())
-            .append("compId", getCompId())
             .append("planNo", getPlanNo())
             .append("reqPlanDate", getReqPlanDate())
             .append("reqUserId", getReqUserId())
@@ -241,6 +239,7 @@ public class BbWeekplan extends BaseEntity
             .append("balanceUserId", getBalanceUserId())
             .append("balanceAffirmDate", getBalanceAffirmDate())
             .append("billStatus", getBillStatus())
+            .append("compId", getCompId())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())

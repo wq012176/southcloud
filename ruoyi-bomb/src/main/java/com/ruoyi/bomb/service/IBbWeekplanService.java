@@ -7,7 +7,7 @@ import com.ruoyi.bomb.domain.BbWeekplan;
  * 周计划主档Service接口
  * 
  * @author wq
- * @date 2022-01-08
+ * @date 2022-03-01
  */
 public interface IBbWeekplanService 
 {

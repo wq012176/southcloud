@@ -11,10 +11,6 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>公司别id：</label>
-                                <input type="text" name="compId"/>
-                            </li>
-                            <li>
                                 <label>计划单号：</label>
                                 <input type="text" name="planNo"/>
                             </li>
@@ -91,9 +87,8 @@
         var editFlag = [[${@permission.hasPermi('bomb:weekplan:edit')}]];
         var removeFlag = [[${@permission.hasPermi('bomb:weekplan:remove')}]];
         var prefix = ctx + "bomb/weekplan";
-        debugger;
+
         $(function() {
-            debugger;
             var options = {
                 url: prefix + "/list",
                 createUrl: prefix + "/add",
@@ -102,16 +97,12 @@
                 exportUrl: prefix + "/export",
                 modalName: "周计划主档",
                 columns: [{
-                    checkbox: false
+                    checkbox: true
                 },
                 {
                     field: 'planId',
                     title: '周计划id',
                     visible: false
-                },
-                {
-                    field: 'compId',
-                    title: '公司别id'
                 },
                 {
                     field: 'planNo',

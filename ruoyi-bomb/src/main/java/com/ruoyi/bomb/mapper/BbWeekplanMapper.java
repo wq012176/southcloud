@@ -8,7 +8,7 @@ import com.ruoyi.bomb.domain.BbWeekplanDtl;
  * 周计划主档Mapper接口
  * 
  * @author wq
- * @date 2022-01-08
+ * @date 2022-03-01
  */
 public interface BbWeekplanMapper 
 {
